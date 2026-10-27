@@ -33,6 +33,77 @@ Practise inspecting and changing Linux file permissions, identifying the current
 - Ran `umask` and observed `0022`.
 - Ran `umask -S` and observed `u=rwx,g=rx,o=rx`.
 
+## Command Walkthrough
+
+### 1. Inspect the file
+
+```bash
+cd ~/linux-practice
+ls -l permissions.txt
+whoami
+stat permissions.txt
+```
+
+These commands identify the current user and inspect the file's permissions, ownership, and metadata.
+
+### 2. Restrict access to the owner
+
+```bash
+chmod 600 permissions.txt
+ls -l permissions.txt
+stat -c '%a %A %n' permissions.txt
+```
+
+Expected permission mode: `600` (`-rw-------`).
+
+The owner can read and write the file. Group and other users have no permissions through the file's Unix permission bits.
+
+### 3. Restore read access for group and others
+
+```bash
+chmod 644 permissions.txt
+ls -l permissions.txt
+stat -c '%a %A %n' permissions.txt
+```
+
+Expected permission mode: `644` (`-rw-r--r--`).
+
+The owner can read and write the file, while group and other users can read it.
+
+### 4. Inspect the file contents
+
+```bash
+cat permissions.txt
+```
+
+Expected content:
+
+```text
+Learning Linux permissions
+```
+
+### 5. Inspect the default permission mask
+
+```bash
+umask
+umask -S
+```
+
+In this exercise, the observed numeric mask was `0022`, and the symbolic output was `u=rwx,g=rx,o=rx`.
+
+The `umask` affects the permissions assigned to newly created files and directories. It removes permissions from the mode requested by the creating application; it does not change permissions on existing files.
+
+## Security Considerations
+
+- Apply the principle of least privilege when choosing file permissions.
+- Use `600` for files containing information that should be accessible only to the owner, where appropriate.
+- Use `644` only when group and other users are permitted to read the file.
+- File permissions are one layer of access control; ownership, directory permissions, ACLs, and other security controls can also affect access.
+
+## Verification Note
+
+The permission modes and `umask` values above reflect the results recorded during this exercise. The command walkthrough provides a repeatable way to inspect and verify them.
+
 ## Key Learnings
 
 - Linux permissions control read, write, and execute access.
