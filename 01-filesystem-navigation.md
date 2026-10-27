@@ -35,6 +35,60 @@ Practise essential Linux filesystem navigation and file-management commands usin
 8. Located `notes.txt` using `find`.
 9. Verified that the backup retained the original text.
 
+## Command Walkthrough
+
+The following examples demonstrate the core commands used during this exercise.
+
+### 1. Inspect the working directory
+
+```bash
+pwd
+ls -la
+```
+
+- `pwd` prints the current working directory.
+- `ls -la` lists visible and hidden entries with detailed file information.
+
+### 2. Create a directory and a file
+
+```bash
+mkdir -p ~/linux-practice
+cd ~/linux-practice
+touch notes.txt
+echo "Linux filesystem practice" > notes.txt
+```
+
+The `mkdir -p` command creates the directory if needed. The `touch` command creates an empty file, and `echo` with `>` writes text to the file, replacing existing contents.
+
+### 3. Read and copy the file
+
+```bash
+cat notes.txt
+cp notes.txt notes-copy.txt
+```
+
+`cat` displays the file contents, while `cp` creates a separate copy.
+
+### 4. Rename the copy
+
+```bash
+mv notes-copy.txt backup.txt
+```
+
+The `mv` command renames the copied file to `backup.txt`.
+
+### 5. Locate and verify the files
+
+```bash
+find ~/linux-practice -name "notes.txt"
+cat notes.txt
+cat backup.txt
+```
+
+The `find` command searches for the specified filename. Reading both files allows their contents to be compared.
+
+**Verification note:** These commands are reproducible examples of the documented workflow. Record the actual terminal output separately if you want to include execution evidence.
+
 ## Key Learnings
 
 - Linux directory and file names must match exactly.
