@@ -36,6 +36,78 @@ Practise identifying Linux users and groups, inspecting account records, creatin
 - File group: `cloudlearn`
 - Final permissions: `0664` (`rw-rw-r--`)
 
+## Command Walkthrough
+
+### 1. Identify the current user and groups
+
+```bash
+whoami
+id
+groups
+```
+
+These commands identify the current user, their numeric user and group IDs, and their group memberships.
+
+### 2. Inspect user and group records
+
+```bash
+getent passwd sikafofro
+getent group cloudlearn
+```
+
+`getent` retrieves account and group records from the system's configured identity sources. These commands help verify that the relevant user and group records exist.
+
+### 3. Create and verify the group
+
+```bash
+sudo groupadd cloudlearn
+getent group cloudlearn
+```
+
+The `groupadd` command creates a new group. If the group already exists, check its record rather than attempting to create it again.
+
+The group created during this exercise had GID `1501`.
+
+### 4. Assign group ownership to a file
+
+```bash
+touch cloud-team.txt
+sudo chgrp cloudlearn cloud-team.txt
+ls -l cloud-team.txt
+```
+
+The `chgrp` command changes the file's group ownership. The file owner remains `sikafofro`, while its group is changed to `cloudlearn`.
+
+### 5. Set and verify file permissions
+
+```bash
+chmod 664 cloud-team.txt
+stat -c '%U %G %a %A %n' cloud-team.txt
+```
+
+The verified result was:
+
+- Owner: `sikafofro`
+- Group: `cloudlearn`
+- Permission mode: `0664`
+- Symbolic permissions: `-rw-rw-r--`
+
+The owner and group have read/write permission, while other users have read permission.
+
+## Security Considerations
+
+- Use administrative privileges only when necessary.
+- Grant group membership according to the user's responsibilities.
+- Apply least privilege when setting ownership and permissions.
+- Remember that group ownership and permission bits work together to determine access.
+- Verify changes with `id`, `getent`, `ls -l`, and `stat`.
+
+## Verification Note
+
+The results above reflect the values recorded during the exercise. The commands provide a repeatable method to inspect account records, group ownership, and file permissions.
+
+**Environment note:** These exercises were performed in Ubuntu on WSL. The same core Linux concepts apply to many Linux servers, including cloud-based environments.
+
 ## Key Learnings
 
 - Linux uses UIDs and GIDs to identify users and groups.
